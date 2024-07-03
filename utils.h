@@ -1,5 +1,5 @@
 /*
- * Predefined strings for tictactoe game.
+ * Utilities for tictactoe game.
  * 
  * Copyright (C) 2024  Kostas Drakontidis
  * 
@@ -17,27 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef __MSG_H__
-#define __MSG_H__
+#ifndef __UTILS_H__
+#define __UTILS_H__
 
-extern char *WELCOME_MSG;
+/*Replica of GNU extension. See man asprintf.*/
+int asprintf(char **restrict strp, char *restrict fmt, ...);
 
-extern char *INVALID_CHAR_SELECTION_MSG;
-
-extern char *PLAYING_AS_MSG;
-
-extern char *OPPONENT_PLAYS_MSG;
-
-extern char *BOARD_MSG;
-
-extern char *NEXT_MOVE_MSG;
-
-extern char *INVALID_MOVE_MSG;
-
-extern char *PLAYER_WON_MSG;
-
-extern char *OPPONENT_WON_MSG;
-
-extern char *DRAW;
+void address_check (void *address, char *context);
 
 #endif

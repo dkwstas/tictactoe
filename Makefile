@@ -28,10 +28,5 @@ all: $(OBJ)
 	$(CC) $(CFLAGS) -c $*.c -fsanitize=address
 
 clean:
-<<<<<<< HEAD
-	$(RM) main *.o
-
-=======
 	$(RM) main
 	$(RM) *.o
->>>>>>> 9788f7526d11093a98156637b4f227845a968549

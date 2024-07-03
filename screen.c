@@ -16,9 +16,11 @@ char *_asprintf(char *fmt, ...) {
     size = vsnprintf(NULL, 0, fmt, arguments) + 1;
     output = (char *)malloc(size * sizeof(char));
     output = (char *)memset(output, '\0', size * sizeof(char));
+    va_end(arguments);
 
     va_start(arguments, fmt);
     vsprintf(output, fmt, arguments);
+    va_end(arguments);
 
     return(output);
 }

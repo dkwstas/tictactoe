@@ -25,7 +25,7 @@ int main (void) {
     do {
         scanf("%1s", input);
         if (strcasecmp(input, "X") && strcasecmp(input, "O")) {
-            printf(INVALID_CHAR_SELECTION_MSG);
+            printf("%s",INVALID_CHAR_SELECTION_MSG);
         }
     } while (strcasecmp(input, "X") && strcasecmp(input, "O"));
 

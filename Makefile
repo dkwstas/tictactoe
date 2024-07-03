@@ -9,8 +9,5 @@ all: $(OBJ)
 	$(CC) $(CFLAGS) -c $*.c -fsanitize=address
 
 clean:
-	$(RM) main
-	$(RM) main.o
-	$(RM) game.o
-	$(RM) screen.o
-	$(RM) msg.o
+	$(RM) main *.o
+

@@ -1,12 +1,31 @@
+/*
+ * Tictactoe game.
+ * 
+ * Copyright (C) 2024  Kostas Drakontidis
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include "main.h"
 #include "display.h"
-#include "utils.h"
 #include "game.h"
+#include "main.h"
 #include "msg.h"
+#include "utils.h"
 
 int main (void) {
     int random;
@@ -42,7 +61,6 @@ int main (void) {
         pos.y = rand() % 3;
 
         place_marker(game, pos, SYSTEM);
-        //game->system_matrix[pos.x][pos.y] = 1;
 
         asprintf(&output, OPPONENT_PLAYS_MSG, (pos.x) + 1, (pos.y) + 1);
         clear_section(section);

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "game.h"
-#include "screen.h"
+#include "display.h"
+#include "utils.h"
 #include "msg.h"
 
 game_status_t game_analysis (game_t *game, player_type_t pt) {
@@ -43,21 +44,25 @@ game_status_t game_analysis (game_t *game, player_type_t pt) {
 
 char *render_board (game_t *game) {
     int i, j;
-    char *temp = (char *)malloc(9 * sizeof(char));
+    char *board = (char *)malloc(9 * sizeof(char)), *output = NULL;
 
     for (i=0; i < 3; i++) {
         for (j=0; j < 3; j++) {
             if (game->player_matrix[i][j] == 1) {
-                temp[(3 * i) + j] = game->player_char;
+                board[(3 * i) + j] = game->player_char;
             } else if (game->system_matrix[i][j] == 1) {
-                temp[(3 * i) + j] = game->system_char;
+                board[(3 * i) + j] = game->system_char;
             } else {
-                temp[(3 * i) + j] = '-';
+                board[(3 * i) + j] = '-';
             }
         }
     }
 
-    return(temp);
+    asprintf(&output, BOARD_MSG, board[0], board[1], board[2],
+                                 board[3], board[4], board[5],
+                                 board[6], board[7], board[8]);
+
+    return(output);
 }
 
 int availability_check (game_t *game, pos_t pos) {
@@ -189,12 +194,15 @@ pos_t *system_play (game_t *game) {
 }
 
 void run_game (game_t *game) {
-    char *output = NULL;
+    char *output = NULL, *board = NULL;
     pos_t pos, *s_pos = NULL;
-    section_t *above = NULL, *below = NULL;
+    section_t *section = NULL;
+    display_t *display = NULL;
 
-    above = init_section();
-    below = init_section();
+    section = init_section();
+    display = init_display();
+    display->clear = 1;
+    add_to_display(display, section);
     
     while (game->markers_left > 0) {
         do {
@@ -216,39 +224,44 @@ void run_game (game_t *game) {
             continue;
         }
 
-        clear_section(above);
-        clear_section(below);
+        clear_section(section);
 
         if ((game->markers_left <= 4) && (game_analysis(game, PLAYER) == PLAYER_WON)) {
-            add_section(above, PLAYER_WON_MSG);
-            update_screen(1, render_board(game), above, NULL);
+            add_to_section(section, PLAYER_WON_MSG);
+            update_display(display);
             break;
         } else if (game->markers_left == 0) {
             break;
         } else {
             s_pos = system_play(game);
             if ((game->markers_left <= 4) && (game_analysis(game, SYSTEM) == SYSTEM_WON)) {
-                output = _asprintf(OPPONENT_PLAYS_MSG, (s_pos->x) + 1, (s_pos->y) + 1);
-                add_section(above, output);
-                add_section(below, OPPONENT_WON_MSG);
-                update_screen(1, render_board(game), above, below);
+                asprintf(&output, OPPONENT_PLAYS_MSG, (s_pos->x) + 1, (s_pos->y) + 1);
+                add_to_section(section, output);
+                board = render_board(game);
+                add_to_section(section, board);
+                add_to_section(section, OPPONENT_WON_MSG);
+                update_display(display);
                 break;
             }
         }
 
-        output = _asprintf(OPPONENT_PLAYS_MSG, (s_pos->x) + 1, (s_pos->y) + 1);
-        add_section(above, output);
-        output = _asprintf(PLAYING_AS_MSG, game->player_char);
-        add_section(above, output);
-        add_section(below, NEXT_MOVE_MSG);
-        update_screen(1, render_board(game), above, below);
+        asprintf(&output, OPPONENT_PLAYS_MSG, (s_pos->x) + 1, (s_pos->y) + 1);
+        add_to_section(section, output);
+        asprintf(&output, PLAYING_AS_MSG, game->player_char);
+        add_to_section(section, output);
+        board = render_board(game);
+        add_to_section(section, board);
+        add_to_section(section, NEXT_MOVE_MSG);
+        update_display(display);
         
         free(s_pos);
     }
 
     if (game->markers_left == 0) {
-        add_section(below, DRAW);
-        update_screen(1, render_board(game), above, below);
+        board = render_board(game);
+        add_to_section(section, board);
+        add_to_section(section, DRAW);
+        update_display(display);
     }
 }
 

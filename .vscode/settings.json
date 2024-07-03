@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "stdarg.h": "c",
+        "stdint.h": "c",
+        "cstdint": "c",
+        "stdint-gcc.h": "c",
+        "utils.h": "c",
+        "stdio.h": "c"
     }
 }

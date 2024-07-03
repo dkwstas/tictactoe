@@ -3,24 +3,29 @@
 #include <stdlib.h>
 #include <time.h>
 #include "main.h"
-#include "screen.h"
+#include "display.h"
+#include "utils.h"
 #include "game.h"
 #include "msg.h"
 
 int main (void) {
     int random;
-    char input[2] = {'\0'}, *output = NULL;
+    char input[2] = {'\0'}, *output = NULL, *board = NULL;
     pos_t pos;
     game_t *game = NULL;
-    section_t *above = NULL, *below = NULL;
+    section_t *section = NULL;
+    display_t *display;
 
     srand(time(NULL));
 
-    above = init_section();
-    below = init_section();
+    section = init_section();
+    display = init_display();
+    
+    display->clear = 1;
 
-    add_section(above, WELCOME_MSG);
-    update_screen(1, NULL, above, NULL);
+    add_to_section(section, WELCOME_MSG);
+    add_to_display(display, section);
+    update_display(display);
 
     do {
         scanf("%1s", input);
@@ -38,21 +43,26 @@ int main (void) {
 
         place_marker(game, pos, SYSTEM);
         //game->system_matrix[pos.x][pos.y] = 1;
-        
-        output = _asprintf(OPPONENT_PLAYS_MSG, (pos.x) + 1, (pos.y) + 1);
-        clear_section(above);
-        add_section(above, output);
-        add_section(below, NEXT_MOVE_MSG);
-        update_screen(1, render_board(game), above, below);
 
-//        printf("DEBUG %dx%d", r_vector[0], r_vector[1]);
+        asprintf(&output, OPPONENT_PLAYS_MSG, (pos.x) + 1, (pos.y) + 1);
+        clear_section(section);
+        add_to_section(section, output);
+        asprintf(&output, PLAYING_AS_MSG, game->player_char);
+        add_to_section(section, output);
+        board = render_board(game);
+        add_to_section(section, board);
+        add_to_section(section, NEXT_MOVE_MSG);
+        update_display(display);
+
         run_game(game);
     } else {
-        output = _asprintf(PLAYING_AS_MSG, game->player_char);
-        clear_section(above);
-        add_section(above, output);
-        add_section(below, NEXT_MOVE_MSG);
-        update_screen(1, render_board(game), above, below);
+        asprintf(&output, PLAYING_AS_MSG, game->player_char);
+        clear_section(section);
+        add_to_section(section, output);
+        board = render_board(game);
+        add_to_section(section, board);
+        add_to_section(section, NEXT_MOVE_MSG);
+        update_display(display);
         run_game(game);
     }
 

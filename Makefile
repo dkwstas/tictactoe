@@ -1,6 +1,6 @@
 CC = gcc 
 CFLAGS = -Wall -g
-OBJ = main.o game.o screen.o msg.o
+OBJ = main.o game.o display.o utils.o msg.o
 
 all: $(OBJ)
 	$(CC) $(CFLAGS) *.o -o main -fsanitize=address
@@ -10,7 +10,4 @@ all: $(OBJ)
 
 clean:
 	$(RM) main
-	$(RM) main.o
-	$(RM) game.o
-	$(RM) screen.o
-	$(RM) msg.o
+	$(RM) *.o

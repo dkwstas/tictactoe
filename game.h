@@ -56,9 +56,9 @@ game_status_t game_analysis (game_t *game, player_type_t pt);
 
 /* 
  * Gets a pointer to a game and a pointer to a string. Converts and returns
- * both matrices as a string in pointer board. Returns NULL on error.
+ * both matrices as a string in pointer output. Returns NULL on error.
  */
-void render_board (game_t *game, char **board);
+void render_board (game_t *game, char **output);
 
 /*
  * Gets a pointer to a game and a position. Checks if the position is occupied

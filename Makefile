@@ -17,21 +17,33 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-CC = gcc										#Compiler 
-CFLAGS = -Wall -g								#Compiler flags
-OBJ = main.o game.o display.o utils.o msg.o		#Object files as targets
+CC = gcc 
+CFLAGS = -Wall -g -p
+_OBJ = main.o game.o display.o utils.o msg.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+SDIR = src
+BDIR = $(ODIR)/build
+DDIR = $(ODIR)/debug
+ODIR = out
 
 #Generates final executable
+.PHONY: all
 all: $(OBJ)
-	$(CC) $(CFLAGS) *.o -o main
+	$(CC) $(CFLAGS) $^ -o $(BDIR)/main
 
+#Generates debug executable
 debug: $(OBJ)
-	$(CC) $(CFLAGS) *.o -o main -fsanitize=address
+	$(CC) $(CFLAGS) $^ -o $(DDIR)/main_debug -fsanitize=address
+
 #Generates object files for each module
-%.o: %.c %.h
-	$(CC) $(CFLAGS) -c $*.c
+$(ODIR)/%.o: $(SDIR)/%.c $(SDIR)/%.h dir
+	$(CC) $(CFLAGS) -c  $< -o $@
+
+#Creates output directory
+.PHONY: dir
+dir:
+	mkdir -p $(BDIR) $(DDIR)
 
 #Cleans previously generated files
 clean:
-	$(RM) main
-	$(RM) *.o
+	$(RM) -r out

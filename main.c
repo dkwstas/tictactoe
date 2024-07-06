@@ -28,64 +28,69 @@
 #include "utils.h"
 
 int main (void) {
-    int random;
-    char input[2] = {'\0'}, *output = NULL, *board = NULL;
-    pos_t pos;
-    game_t *game = NULL;
-    section_t *section = NULL;
-    display_t *display;
+	int random;
+	char input[2] = {'\0'}, *output = NULL, *board = NULL;
+	pos_t pos;
+	game_t *game = NULL;
+	section_t *section = NULL;
+	display_t *display;
 
-    srand(time(NULL));
+	srand(time(NULL));
 
-    section = init_section();
-    display = init_display();
-    
-    display->clear = 1;
+	/*Initialising the display driver and printing the welcome message*/
+	section = init_section();
+	display = init_display();
 
-    add_to_section(section, WELCOME_MSG);
-    add_to_display(display, section);
-    update_display(display);
+	display->clear = 1;
 
-    do {
-        scanf("%1s", input);
-        if (strcasecmp(input, "X") && strcasecmp(input, "O")) {
-            add_to_section(section, INVALID_CHAR_SELECTION_MSG);
-            update_display(display);
-        }
-    } while (strcasecmp(input, "X") && strcasecmp(input, "O"));
+	add_to_section(section, WELCOME_MSG);
+	add_to_display(display, section);
+	update_display(display);
 
-    game = init(TO_CAP(input[0]));
+	/*Asking the user for their character*/
+	do {
+		scanf("%1s", input);
+		if (strcasecmp(input, "X") && strcasecmp(input, "O")) {
+			add_to_section(section, INVALID_CHAR_SELECTION_MSG);
+			update_display(display);
+		}
+	} while (strcasecmp(input, "X") && strcasecmp(input, "O"));
 
-    random = rand() % 2;
-    if (random == 0) {
-        pos.x = rand() % 3;
-        pos.y = rand() % 3;
+	/*Initialising the game*/
+	game = init(TO_CAP(input[0]));
 
-        place_marker(game, pos, SYSTEM);
+	/*Generating a random number to decide if the player plays first*/
+	random = rand() % 2;
+	if (random == 0) {
+		/*Generating a random position as system plays first*/
+		pos.x = rand() % 3;
+		pos.y = rand() % 3;
 
-        asprintf(&output, OPPONENT_PLAYS_MSG, (pos.x) + 1, (pos.y) + 1);
-        clear_section(section);
-        add_to_section(section, output);
-        asprintf(&output, PLAYING_AS_MSG, game->player_char);
-        add_to_section(section, output);
-        board = render_board(game);
-        add_to_section(section, board);
-        add_to_section(section, NEXT_MOVE_MSG);
-        update_display(display);
+		place_marker(game, pos, SYSTEM);
 
-        run_game(game);
-    } else {
-        asprintf(&output, PLAYING_AS_MSG, game->player_char);
-        clear_section(section);
-        add_to_section(section, output);
-        board = render_board(game);
-        add_to_section(section, board);
-        add_to_section(section, NEXT_MOVE_MSG);
-        update_display(display);
-        run_game(game);
-    }
+		asprintf(&output, OPPONENT_PLAYS_MSG, (pos.x) + 1, (pos.y) + 1);
+		clear_section(section);
+		add_to_section(section, output);
+		asprintf(&output, PLAYING_AS_MSG, game->player_char);
+		add_to_section(section, output);
+		board = render_board(game);
+		add_to_section(section, board);
+		add_to_section(section, NEXT_MOVE_MSG);
+		update_display(display);
 
-    free(game);
+		run_game(game);
+	} else {
+		asprintf(&output, PLAYING_AS_MSG, game->player_char);
+		clear_section(section);
+		add_to_section(section, output);
+		board = render_board(game);
+		add_to_section(section, board);
+		add_to_section(section, NEXT_MOVE_MSG);
+		update_display(display);
+		run_game(game);
+	}
 
-    return(0);
+	free(game);
+
+	return(0);
 }

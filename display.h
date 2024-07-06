@@ -22,15 +22,15 @@
 
 /*Contents of section*/
 typedef struct {
-    int size;       /*Number of strings in section*/
-    char **text;    /*Array of strings*/
+	int size;       /*Number of strings in section*/
+	char **text;    /*Array of strings*/
 } section_t;
 
 /*Contents of display*/
 typedef struct {
-    int clear;              /*Defines whether to clear the terminal on update*/
-    int size;               /*Number of sections in display*/
-    section_t **sections;   /*Array of sections*/
+	int clear;              /*Defines whether to clear the terminal on update*/
+	int size;               /*Number of sections in display*/
+	section_t **sections;   /*Array of sections*/
 } display_t;
 
 /*

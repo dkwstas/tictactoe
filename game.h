@@ -22,30 +22,30 @@
 
 /*Represents a game of tictactoe*/
 typedef struct {
-    char player_char;
-    char system_char;
-    int player_matrix[3][3];
-    int system_matrix[3][3];
-    int markers_left;
+	char player_char;
+	char system_char;
+	int player_matrix[3][3];
+	int system_matrix[3][3];
+	int markers_left;
 } game_t;
 
 /*A position in a matrix*/
 typedef struct {
-    int x;          /*Row value*/
-    int y;          /*Column value*/
+	int x;          /*Row value*/
+	int y;          /*Column value*/
 } pos_t;
 
 typedef enum {
-    PLAYER,
-    SYSTEM
+	PLAYER,
+	SYSTEM
 } player_type_t;
 
 typedef enum {
-    RUNNING,
-    PLAYER_THREAT,
-    SYSTEM_THREAT,
-    PLAYER_WON,
-    SYSTEM_WON
+	RUNNING,
+	PLAYER_THREAT,
+	SYSTEM_THREAT,
+	PLAYER_WON,
+	SYSTEM_WON
 } game_status_t;
 
 /*

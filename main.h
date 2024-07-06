@@ -20,6 +20,7 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+/*Returns the capital of CHAR, or CHAR if it's not a character*/
 #define TO_CAP(CHAR) ((CHAR < 'A' || CHAR > 'Z') ? (CHAR - 32) : CHAR)
 
 #endif

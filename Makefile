@@ -17,15 +17,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-CC = gcc 
-CFLAGS = -Wall -g
-OBJ = main.o game.o display.o utils.o msg.o
+CC = gcc										#Compiler 
+CFLAGS = -Wall -g								#Compiler flags
+OBJ = main.o game.o display.o utils.o msg.o		#Object files as targets
 
+#Generates final executable
 all: $(OBJ)
 	$(CC) $(CFLAGS) *.o -o main
 
+#Generates object files for each module
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $*.c
+
+#Cleans previously generated files
 clean:
 	$(RM) main
 	$(RM) *.o

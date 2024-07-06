@@ -29,6 +29,7 @@ void clear_section (section_t *section) {
 	for (i=0; i < section->size; i++) {
 		free((section->text)[i]);
 	}
+
 	free(section->text);
 	section->text = NULL;
 	section->size = 0;
@@ -78,6 +79,7 @@ void clear_display (display_t *display) {
 	for (i=0; i < display->size; i++) {
 		free(display->sections[i]);
 	}
+
 	free(display->sections);
 	display->size = 0;
 	display->clear = 0;

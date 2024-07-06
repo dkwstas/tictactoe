@@ -22,11 +22,10 @@ CFLAGS = -Wall -g
 OBJ = main.o game.o display.o utils.o msg.o
 
 all: $(OBJ)
-	$(CC) $(CFLAGS) *.o -o main -fsanitize=address
+	$(CC) $(CFLAGS) *.o -o main
 
 %.o: %.c %.h
-	$(CC) $(CFLAGS) -c $*.c -fsanitize=address
-
+	$(CC) $(CFLAGS) -c $*.c
 clean:
 	$(RM) main
 	$(RM) *.o

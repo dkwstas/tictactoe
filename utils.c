@@ -35,9 +35,13 @@ int asprintf(char **restrict strp, char *restrict fmt, ...) {
     *strp = (char *)realloc(*strp, size * sizeof(char));
     *strp = (char *)memset(*strp, '\0', size * sizeof(char));
 
+    va_end(arguments);
+
     /*Resetting va_list*/
     va_start(arguments, fmt);
     vsprintf(*strp, fmt, arguments);
+    
+    va_end(arguments);
 
     return(size);
 }

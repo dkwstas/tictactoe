@@ -41,7 +41,7 @@ char *NEXT_MOVE_MSG = "\nEnter your next move.\n";
 
 char *INVALID_MOVE_MSG = "You can't place a marker here. Enter your next move.\n";
 
-char *PLAYER_WON_MSG = "You won the game!\n";
+char *PLAYER_WON_MSG = "\nYou won the game!\n";
 
 char *OPPONENT_WON_MSG = "\nYou lost. The opponent won the game, good luck next time.\n";
 

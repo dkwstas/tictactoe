@@ -49,7 +49,8 @@ int main (void) {
     do {
         scanf("%1s", input);
         if (strcasecmp(input, "X") && strcasecmp(input, "O")) {
-            printf(INVALID_CHAR_SELECTION_MSG);
+            add_to_section(section, INVALID_CHAR_SELECTION_MSG);
+            update_display(display);
         }
     } while (strcasecmp(input, "X") && strcasecmp(input, "O"));
 

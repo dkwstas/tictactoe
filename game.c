@@ -153,7 +153,7 @@ pos_t *get_threat_pos (game_t *game, player_type_t pt) {
 			}
 		}
 
-		if ((markers_row == 2) || (markers_col == 2)) {
+		if (markers_row == 2) {
 			for (j=0; j < 3; j++) {
 				/* 
 				 * Checking if there is a collinear empty spot with the two
@@ -164,7 +164,12 @@ pos_t *get_threat_pos (game_t *game, player_type_t pt) {
 					pos->y = j;
 					return(pos);
 				}
+			}
+		}
 
+		if (markers_col == 2) {
+			for (j=0; j < 3; j++) {
+				/*Same as above, but for columns*/
 				if ((main_matrix[j][i] == 0) && (sec_matrix[j][i] == 0)) {
 					pos->x = j;
 					pos->y = i;
@@ -278,6 +283,8 @@ void run_game (game_t *game) {
 		if ((game->markers_left <= 4) &&
 				(game_analysis(game, PLAYER) == PLAYER_WON)) {
 
+			board = render_board(game);
+			add_to_section(section, board);
 			add_to_section(section, PLAYER_WON_MSG);
 			update_display(display);
 			break;
@@ -316,6 +323,7 @@ void run_game (game_t *game) {
 	}
 
 	if (game->markers_left == 0) {
+		clear_section(section);
 		board = render_board(game);
 		add_to_section(section, board);
 		add_to_section(section, DRAW);

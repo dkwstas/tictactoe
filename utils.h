@@ -20,7 +20,8 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-/* Replica of GNU extension. See man asprintf.
+/* 
+ * Replica of GNU extension. See man asprintf.
  * Gets a pointer to a string, a string and additional arguments.
  * Inserts the values provided in the additional arguments into the
  * corresponding positions in fmt. Allocates enough memory for the new
@@ -28,9 +29,16 @@
  */
 int asprintf(char **restrict strp, char *restrict fmt, ...);
 
-/* Gets a memory address and a string. Checks if the address is NULL
+/* 
+ * Gets a memory address and a string. Checks if the address is NULL
  * prints the string and exits the program if needed. Returns nothing.
  */
 void address_check (void *address, char *context);
+
+/* 
+ * Frees every address passed as argument. Must be terminated by NULL.
+ * Returns nothing.
+ */
+void multi_free (void * address, ...);
 
 #endif

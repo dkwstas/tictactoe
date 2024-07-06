@@ -25,6 +25,8 @@ OBJ = main.o game.o display.o utils.o msg.o		#Object files as targets
 all: $(OBJ)
 	$(CC) $(CFLAGS) *.o -o main
 
+debug: $(OBJ)
+	$(CC) $(CFLAGS) *.o -o main -fsanitize=address
 #Generates object files for each module
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $*.c

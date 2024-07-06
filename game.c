@@ -68,9 +68,9 @@ game_status_t game_analysis (game_t *game, player_type_t pt) {
 	return(RUNNING);
 }
 
-char *render_board (game_t *game) {
+void render_board (game_t *game, char **output) {
 	int i, j, size;
-	char *board = NULL, *output = NULL;
+	char *board = NULL;
 
 	board = (char *)malloc(9 * sizeof(char));
 
@@ -86,15 +86,16 @@ char *render_board (game_t *game) {
 		}
 	}
 
-	size = asprintf(&output, BOARD_MSG,
+	size = asprintf(output, BOARD_MSG,
 			board[0], board[1], board[2],
 			board[3], board[4], board[5],
 			board[6], board[7], board[8]);
-	if (size == -1) {
-		return(NULL);
-	}
 
-	return(output);
+	free(board);
+
+	if (size == -1) {
+		free(*output);
+	}
 }
 
 int availability_check (game_t *game, pos_t pos) {
@@ -283,7 +284,7 @@ void run_game (game_t *game) {
 		if ((game->markers_left <= 4) &&
 				(game_analysis(game, PLAYER) == PLAYER_WON)) {
 
-			board = render_board(game);
+			render_board(game, &board);
 			add_to_section(section, board);
 			add_to_section(section, PLAYER_WON_MSG);
 			update_display(display);
@@ -302,7 +303,7 @@ void run_game (game_t *game) {
 						(s_pos->x) + 1, (s_pos->y) + 1);
 
 				add_to_section(section, output);
-				board = render_board(game);
+				render_board(game, &board);
 				add_to_section(section, board);
 				add_to_section(section, OPPONENT_WON_MSG);
 				update_display(display);
@@ -314,7 +315,7 @@ void run_game (game_t *game) {
 		add_to_section(section, output);
 		asprintf(&output, PLAYING_AS_MSG, game->player_char);
 		add_to_section(section, output);
-		board = render_board(game);
+		render_board(game, &board);
 		add_to_section(section, board);
 		add_to_section(section, NEXT_MOVE_MSG);
 		update_display(display);
@@ -324,11 +325,15 @@ void run_game (game_t *game) {
 
 	if (game->markers_left == 0) {
 		clear_section(section);
-		board = render_board(game);
+		render_board(game, &board);
 		add_to_section(section, board);
 		add_to_section(section, DRAW);
 		update_display(display);
 	}
+
+	clear_section(section);
+	clear_display(display);
+	multi_free(section, display, board, output, NULL);
 }
 
 game_t *init (char player_char) {

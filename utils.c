@@ -54,3 +54,16 @@ void address_check (void *address, char *context) {
 		exit(-1);
 	}
 }
+
+void multi_free (void * address, ...) {
+	void *addr = NULL;
+	va_list arguments;
+
+	va_start(arguments, address);
+
+	while ((addr = va_arg(arguments, void *)) != NULL) {
+		free(addr);
+	}
+
+	va_end(arguments);
+}

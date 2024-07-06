@@ -55,10 +55,10 @@ typedef enum {
 game_status_t game_analysis (game_t *game, player_type_t pt);
 
 /* 
- * Gets a pointer to a game. Converts and returns both matrices as a string.
- * Returns NULL on error.
+ * Gets a pointer to a game and a pointer to a string. Converts and returns
+ * both matrices as a string in pointer board. Returns NULL on error.
  */
-char *render_board (game_t *game);
+void render_board (game_t *game, char **board);
 
 /*
  * Gets a pointer to a game and a position. Checks if the position is occupied
@@ -91,7 +91,8 @@ pos_t *system_play (game_t *game);
 /*Gets a pointer to a game. This is the game core. Returns nothing.*/
 void run_game (game_t *game);
 
-/* Gets a character representing the character of the player, based on their
+/* 
+ * Gets a character representing the character of the player, based on their
  * selection. Initialises and returns the game. Returns NULL on error.
  */
 game_t *init (char player_char);

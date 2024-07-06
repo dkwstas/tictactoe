@@ -33,7 +33,7 @@ int main (void) {
 	pos_t pos;
 	game_t *game = NULL;
 	section_t *section = NULL;
-	display_t *display;
+	display_t *display = NULL;
 
 	srand(time(NULL));
 
@@ -73,20 +73,30 @@ int main (void) {
 		add_to_section(section, output);
 		asprintf(&output, PLAYING_AS_MSG, game->player_char);
 		add_to_section(section, output);
-		board = render_board(game);
+		render_board(game, &board);
 		add_to_section(section, board);
 		add_to_section(section, NEXT_MOVE_MSG);
 		update_display(display);
+
+        /*Releasing excessive memory before moving on*/
+        clear_section(section);
+        clear_display(display);
+        multi_free(section, display, output, board, NULL);
 
 		run_game(game);
 	} else {
 		asprintf(&output, PLAYING_AS_MSG, game->player_char);
 		clear_section(section);
 		add_to_section(section, output);
-		board = render_board(game);
+		render_board(game, &board);
 		add_to_section(section, board);
 		add_to_section(section, NEXT_MOVE_MSG);
 		update_display(display);
+
+        clear_section(section);
+        clear_display(display);
+        multi_free(section, display, output, board, NULL);
+
 		run_game(game);
 	}
 

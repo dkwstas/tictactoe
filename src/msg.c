@@ -18,10 +18,10 @@
  */
 
 char *WELCOME_MSG = "Welcome to tic tac toe.\n Please select a " \
-					 "character: X, O.\n";
+			"character: X, O.\n";
 
 char *INVALID_CHAR_SELECTION_MSG = "Invalid selection.\n Please select " \
-									"a character: X, O.\n";
+					"a character: X, O.\n";
 
 char *PLAYING_AS_MSG = "It's your turn. You are playing as %c.\n";
 
